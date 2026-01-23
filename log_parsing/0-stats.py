@@ -26,16 +26,17 @@ if __name__ == "__main__":
                 if len(parts) < 2:
                     continue
 
-                status_code = int(parts[-2])
                 file_size = int(parts[-1])
+                status_code = int(parts[-2])
+
+                total_size += file_size
 
                 if status_code in status_codes:
                     status_codes[status_code] += 1
-                total_size += file_size
-                line_count += 1
+                    line_count += 1
 
-                if line_count % 10 == 0:
-                    print_stats(total_size, status_codes)
+                    if line_count % 10 == 0:
+                        print_stats(total_size, status_codes)
             except (ValueError, IndexError):
                 continue
     except KeyboardInterrupt:

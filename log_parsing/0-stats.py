@@ -21,24 +21,28 @@ if __name__ == "__main__":
 
     try:
         for line in sys.stdin:
+            parts = line.split()
+            if len(parts) < 2:
+                continue
+
             try:
-                parts = line.split()
-                if len(parts) < 2:
-                    continue
-
                 file_size = int(parts[-1])
-                status_code = int(parts[-2])
-
-                total_size += file_size
-                line_count += 1
-
-                if status_code in status_codes:
-                    status_codes[status_code] += 1
-
-                if line_count % 10 == 0:
-                    print_stats(total_size, status_codes)
             except (ValueError, IndexError):
                 continue
+
+            total_size += file_size
+            line_count += 1
+
+            try:
+                status_code = int(parts[-2])
+                if status_code in status_codes:
+                    status_codes[status_code] += 1
+            except (ValueError, IndexError):
+                pass
+
+            if line_count % 10 == 0:
+                print_stats(total_size, status_codes)
+
     except KeyboardInterrupt:
         print_stats(total_size, status_codes)
         raise

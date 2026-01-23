@@ -23,17 +23,23 @@ if __name__ == "__main__":
         for line in sys.stdin:
             try:
                 parts = line.split()
-                if len(parts) >= 7:
-                    status_code = int(parts[-2])
-                    file_size = int(parts[-1])
+                if len(parts) < 7:
+                    continue
 
-                    if status_code in status_codes:
-                        status_codes[status_code] += 1
-                    total_size += file_size
-                    line_count += 1
+                # Check if line contains the expected GET request
+                if '"GET' not in line or 'HTTP/1.1"' not in line:
+                    continue
 
-                    if line_count % 10 == 0:
-                        print_stats(total_size, status_codes)
+                status_code = int(parts[-2])
+                file_size = int(parts[-1])
+
+                if status_code in status_codes:
+                    status_codes[status_code] += 1
+                total_size += file_size
+                line_count += 1
+
+                if line_count % 10 == 0:
+                    print_stats(total_size, status_codes)
             except (ValueError, IndexError):
                 continue
     except KeyboardInterrupt:

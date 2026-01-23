@@ -101,6 +101,7 @@ heap_t *heap_insert(heap_t **root, int value)
 	while (current->parent && current->n > current->parent->n)
 	{
 		int temp = current->n;
+
 		current->n = current->parent->n;
 		current->parent->n = temp;
 		current = current->parent;

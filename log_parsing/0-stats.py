@@ -23,11 +23,7 @@ if __name__ == "__main__":
         for line in sys.stdin:
             try:
                 parts = line.split()
-                if len(parts) < 7:
-                    continue
-
-                # Check if line contains the expected GET request
-                if '"GET' not in line or 'HTTP/1.1"' not in line:
+                if len(parts) < 2:
                     continue
 
                 status_code = int(parts[-2])

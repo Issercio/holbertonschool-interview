@@ -25,7 +25,7 @@ size_t get_size(binary_tree_t *tree)
 binary_tree_t *find_insert_parent(binary_tree_t *root, size_t node_count)
 {
 	binary_tree_t **queue;
-	size_t front, rear, i;
+	size_t front, rear;
 
 	if (root == NULL)
 		return (NULL);

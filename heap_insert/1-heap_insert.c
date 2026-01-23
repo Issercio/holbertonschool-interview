@@ -59,6 +59,28 @@ binary_tree_t *find_insert_parent(binary_tree_t *root, size_t node_count)
 }
 
 /**
+ * bubble_up - bubbles a node up to maintain max heap property
+ * @node: pointer to the node to bubble up
+ *
+ * Return: pointer to the node after bubbling
+ */
+binary_tree_t *bubble_up(binary_tree_t *node)
+{
+	binary_tree_t *current = node;
+
+	while (current->parent && current->n > current->parent->n)
+	{
+		int temp = current->n;
+
+		current->n = current->parent->n;
+		current->parent->n = temp;
+		current = current->parent;
+	}
+
+	return (current);
+}
+
+/**
  * heap_insert - inserts a value into a Max Binary Heap
  * @root: double pointer to the root node of the heap
  * @value: the value to store in the node to be inserted
@@ -69,7 +91,6 @@ heap_t *heap_insert(heap_t **root, int value)
 {
 	heap_t *new;
 	heap_t *parent;
-	heap_t *current;
 	size_t node_count;
 
 	if (root == NULL)
@@ -96,16 +117,5 @@ heap_t *heap_insert(heap_t **root, int value)
 	else
 		parent->right = new;
 
-	/* Bubble up to maintain max heap property */
-	current = new;
-	while (current->parent && current->n > current->parent->n)
-	{
-		int temp = current->n;
-
-		current->n = current->parent->n;
-		current->parent->n = temp;
-		current = current->parent;
-	}
-
-	return (current);
+	return (bubble_up(new));
 }

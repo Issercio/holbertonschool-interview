@@ -10,8 +10,7 @@
  */
 int slide_line(int *line, size_t size, int direction)
 {
-    size_t i, j, last;
-    int merged;
+    size_t i, last;
 
     if (!line || (direction != SLIDE_LEFT && direction != SLIDE_RIGHT))
         return (0);

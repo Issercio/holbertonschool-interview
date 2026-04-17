@@ -7,9 +7,9 @@
  */
 void swap(int *a, int *b)
 {
-    int tmp = *a;
-    *a = *b;
-    *b = tmp;
+	int tmp = *a;
+	*a = *b;
+	*b = tmp;
 }
 
 /**
@@ -21,20 +21,20 @@ void swap(int *a, int *b)
  */
 void sift_down(int *array, size_t size, size_t root, size_t end)
 {
-    size_t largest = root;
-    size_t left = 2 * root + 1;
-    size_t right = 2 * root + 2;
+	size_t largest = root;
+	size_t left = 2 * root + 1;
+	size_t right = 2 * root + 2;
 
-    if (left <= end && array[left] > array[largest])
-        largest = left;
-    if (right <= end && array[right] > array[largest])
-        largest = right;
-    if (largest != root)
-    {
-        swap(&array[root], &array[largest]);
-        print_array(array, size);
-        sift_down(array, size, largest, end);
-    }
+	if (left <= end && array[left] > array[largest])
+		largest = left;
+	if (right <= end && array[right] > array[largest])
+		largest = right;
+	if (largest != root)
+	{
+		swap(&array[root], &array[largest]);
+		print_array(array, size);
+		sift_down(array, size, largest, end);
+	}
 }
 
 /**
@@ -44,20 +44,20 @@ void sift_down(int *array, size_t size, size_t root, size_t end)
  */
 void heap_sort(int *array, size_t size)
 {
-    size_t i;
+	size_t i;
 
-    if (!array || size < 2)
-        return;
+	if (!array || size < 2)
+		return;
 
-    /* Build max heap */
-    for (i = (size - 2) / 2 + 1; i > 0; i--)
-        sift_down(array, size, i - 1, size - 1);
+	/* Build max heap */
+	for (i = (size - 2) / 2 + 1; i > 0; i--)
+		sift_down(array, size, i - 1, size - 1);
 
-    /* Heap sort */
-    for (i = size - 1; i > 0; i--)
-    {
-        swap(&array[0], &array[i]);
-        print_array(array, size);
-        sift_down(array, size, 0, i - 1);
-    }
+	/* Heap sort */
+	for (i = size - 1; i > 0; i--)
+	{
+		swap(&array[0], &array[i]);
+		print_array(array, size);
+		sift_down(array, size, 0, i - 1);
+	}
 }

@@ -1,8 +1,11 @@
 #!/usr/bin/python3
+
 """
 0-rain
-Calculates how much water will be retained after it rains given a list of wall heights.
+Calculates how much water will be retained after it rains
+given a list of wall heights.
 """
+
 
 def rain(walls):
     """

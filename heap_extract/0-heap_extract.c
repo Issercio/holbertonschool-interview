@@ -105,7 +105,7 @@ static heap_t *get_last_node(heap_t *root, size_t size)
  */
 static void heapify_down(heap_t *root)
 {
-	heap_t *largest, *tmp;
+	heap_t *largest;
 	int temp;
 
 	while (root)

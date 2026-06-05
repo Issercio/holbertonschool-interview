@@ -23,6 +23,61 @@ int is_numeric(char *s)
 }
 
 /**
+ * multiply_and_carry - Perform long multiplication and handle carries
+ * @num1: First number as string
+ * @num2: Second number as string
+ * @temp: Array to store intermediate results
+ * @len1: Length of first number
+ * @len2: Length of second number
+ * @len_result: Total result length
+ */
+void multiply_and_carry(char *num1, char *num2, int *temp,
+	int len1, int len2, int len_result)
+{
+	int i, j, pos, prod;
+
+	for (i = 0; i < len_result; i++)
+		temp[i] = 0;
+
+	for (i = len1 - 1; i >= 0; i--)
+	{
+		for (j = len2 - 1; j >= 0; j--)
+		{
+			pos = i + j + 1;
+			prod = (num1[i] - '0') * (num2[j] - '0');
+			temp[pos] += prod;
+		}
+	}
+
+	for (i = len_result - 1; i > 0; i--)
+	{
+		temp[i - 1] += temp[i] / 10;
+		temp[i] %= 10;
+	}
+}
+
+/**
+ * trim_leading_zeros - Remove leading zeros from result string
+ * @result: Result string
+ * @len: Original length of result
+ */
+void trim_leading_zeros(char *result, int len)
+{
+	int i, j, new_len;
+
+	i = 0;
+	while (i < len - 1 && result[i] == '0')
+		i++;
+
+	if (i > 0)
+	{
+		new_len = len - i;
+		for (j = 0; j <= new_len; j++)
+			result[j] = result[i + j];
+	}
+}
+
+/**
  * multiply_numbers - Multiply two numeric strings
  * @num1: First number as string
  * @num2: Second number as string
@@ -31,12 +86,13 @@ int is_numeric(char *s)
  */
 char *multiply_numbers(char *num1, char *num2)
 {
-	int len1 = strlen(num1);
-	int len2 = strlen(num2);
-	int len_result = len1 + len2;
+	int len1, len2, len_result, i;
 	char *result;
 	int *temp;
-	int i, j, pos, prod;
+
+	len1 = strlen(num1);
+	len2 = strlen(num2);
+	len_result = len1 + len2;
 
 	result = malloc(len_result + 1);
 	if (result == NULL)
@@ -49,46 +105,14 @@ char *multiply_numbers(char *num1, char *num2)
 		exit(98);
 	}
 
-	/* Initialize temp array to 0 */
-	for (i = 0; i < len_result; i++)
-		temp[i] = 0;
+	multiply_and_carry(num1, num2, temp, len1, len2, len_result);
 
-	/* Long multiplication: multiply each digit of num1 with each digit of num2 */
-	for (i = len1 - 1; i >= 0; i--)
-	{
-		for (j = len2 - 1; j >= 0; j--)
-		{
-			pos = i + j + 1;
-			prod = (num1[i] - '0') * (num2[j] - '0');
-			temp[pos] += prod;
-		}
-	}
-
-	/* Handle carries from right to left */
-	for (i = len_result - 1; i > 0; i--)
-	{
-		temp[i - 1] += temp[i] / 10;
-		temp[i] %= 10;
-	}
-
-	/* Convert to string */
 	for (i = 0; i < len_result; i++)
 		result[i] = temp[i] + '0';
 	result[len_result] = '\0';
 
 	free(temp);
-
-	/* Skip leading zeros */
-	i = 0;
-	while (i < len_result - 1 && result[i] == '0')
-		i++;
-
-	if (i > 0)
-	{
-		int new_len = len_result - i;
-		for (j = 0; j <= new_len; j++)
-			result[j] = result[i + j];
-	}
+	trim_leading_zeros(result, len_result);
 
 	return (result);
 }

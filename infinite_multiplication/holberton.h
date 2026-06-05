@@ -2,7 +2,10 @@
 #define HOLBERTON_H
 
 int _putchar(char c);
-char *multiply_numbers(char *num1, char *num2);
 int is_numeric(char *s);
+void multiply_and_carry(char *num1, char *num2, int *temp,
+	int len1, int len2, int len_result);
+void trim_leading_zeros(char *result, int len);
+char *multiply_numbers(char *num1, char *num2);
 
 #endif
